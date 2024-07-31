@@ -42,9 +42,10 @@ async function handleEnterKey(terminalOutput, terminalInput) {
       terminalOutput.appendChild(newOutputLine);
 
       const inputPrefix = document.getElementById("input-prefix");
-      await animateText(newOutputLine, inputPrefix.textContent, 10, terminalInput, inputPrefix);
+      newOutputLine.textContent += inputPrefix.textContent
+      await animateText(newOutputLine, "USER EXECUTE PROTOCOL:", 30, terminalInput, inputPrefix);
     }
-    await animateText(newOutputLine, outputText, 10, terminalInput);
+    await animateText(newOutputLine, "change theme", 10, terminalInput);
     scrollToBottom();
     terminalInput.innerText = "";
     terminalInput.focus();

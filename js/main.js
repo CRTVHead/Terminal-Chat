@@ -1,19 +1,37 @@
 import { init } from './init.js';
 import { initCursor } from './terminal/cursor.js';
-import { showWelcomeMessage, processCommand, animateText } from './terminal/terminal.js';
-import { handleClick, theme, fullscreen, globalListener } from './handlers/globalHandlers.js';
-import { initSettings } from "./config/settings.js";
+import { handleClick, globalListener } from './handlers/globalHandlers.js';
+import "https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js";
+import { handleChat } from './handlers/TwitchChatHandler.js';
+
+var ready = true;
+var queue = [];
+
+ ComfyJS.onChat = async (user, message, flags, self, extra) => {
+  data = [user, message, flags, self, extra];
+
+  if (ready){
+    sendChat(user, message, flags, self, extra);
+  } else{
+    queue.push(data);
+  }
+
+  console.log(user, message);
+}
+
+async function sendChat(user, message, flags, self, extra){
+  ready = false;
+  await handleChat(user, message, flags, self, extra);
+  await readyUp();
+}
+
+function readyUp()
+{
+  ready = true
+  if (queue.length > 0)
+    data = queue.shift()
+    this.sendChat(data[0], data[1], data[2], data[3],data[4]);
+}
 
 document.addEventListener("DOMContentLoaded", init);
 initCursor();
-showWelcomeMessage();
-initSettings();
-
-document.addEventListener("keydown", globalListener);
-
-// Define some stuff on the window so we can use it directly from the HTML
-Object.assign(window, {
-  theme,
-  handleClick,
-  fullscreen
-});

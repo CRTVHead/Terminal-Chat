@@ -32,8 +32,11 @@
 .terminal #terminal-output {
   color: #FFA128;
   font-weight: bold;
-  margin-bottom: 0.5em;
   white-space: pre-wrap;  
+}
+
+.terminal #terminal-output div {
+  margin-bottom: 0.5em;
 }
 
 .terminal {
