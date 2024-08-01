@@ -64,12 +64,10 @@ document.addEventListener("click", () => {
 	userInteracted = true;
 });
   
-export async function animateText(element, text, delay = 10, terminalInput, inputPrefix) {
-	if (terminalInput) {
-		terminalInput.contentEditable = "false";
-		if (inputPrefix) inputPrefix.style.display = "none";
-	}
+export async function animateText(element, text, delay = 10) {
 
+	var newOutputSpan = document.createElement("span");
+    element.appendChild(newOutputSpan)
 	// const typingSound = new Audio("sounds/typing.mp3");
 
 	// Calculate speed factor based on character count
@@ -77,7 +75,7 @@ export async function animateText(element, text, delay = 10, terminalInput, inpu
 	const adjustedDelay = delay / speedFactor;
 
 	for (const char of text) {
-		element.textContent += char;
+		newOutputSpan.textContent += char;
 		scrollToBottom();
 
 		if (userInteracted) {
@@ -91,9 +89,11 @@ export async function animateText(element, text, delay = 10, terminalInput, inpu
 
 		await new Promise((resolve) => setTimeout(resolve, adjustedDelay));
 	}
+}
 
-	if (terminalInput) {
-		terminalInput.contentEditable = "true";
-		if (inputPrefix) inputPrefix.style.display = "inline";
-	}
+export async function animateEmote(element, source) {
+	var newOutputEmote = document.createElement("img");
+	newOutputEmote.src = source
+	newOutputEmote.classList.add('filtered')
+    element.appendChild(newOutputEmote)
 }

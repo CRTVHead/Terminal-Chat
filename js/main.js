@@ -7,8 +7,8 @@ import { handleChat } from './handlers/TwitchChatHandler.js';
 var ready = true;
 var queue = [];
 
- ComfyJS.onChat = async (user, message, flags, self, extra) => {
-  data = [user, message, flags, self, extra];
+ComfyJS.onChat = async (user, message, flags, self, extra) => {
+  var data = [user, message, flags, self, extra];
 
   if (ready){
     sendChat(user, message, flags, self, extra);
@@ -28,10 +28,12 @@ async function sendChat(user, message, flags, self, extra){
 function readyUp()
 {
   ready = true
-  if (queue.length > 0)
-    data = queue.shift()
-    this.sendChat(data[0], data[1], data[2], data[3],data[4]);
+  if (queue.length > 0){
+    var data = queue.shift()
+    sendChat(data[0], data[1], data[2], data[3],data[4]);
+  }
 }
 
-document.addEventListener("DOMContentLoaded", init);
+// document.addEventListener("DOMContentLoaded", init);
 initCursor();
+ComfyJS.Init( "CRTVhead" );
